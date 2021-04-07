@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+.panel:nth-child(1) {
+    background: linear-gradient(90deg, #d8f5ff 0%, #00ddff 100%);
+}
+.panel:nth-child(2) {
+    background: linear-gradient(90deg, #00ddff 0%, #60a0ff 100%);
+}
+.panel:nth-child(3) {
+    background: linear-gradient(90deg, #60a0ff 0%, #8a77ff 100%);
+}
+.panel:nth-child(4) {
+    background: linear-gradient(90deg, #8a77ff 0%, #9400d3 100%);
+}
+
+*{
+    margin: 0;
+    box-sizing: inherit;
+    font-size: 30px;
+    font-family: 'Do Hyeon', sans-serif;
+    text-shadow: 2px 2px 2px gray;
+}
+
+.panels{
+    display: flex;
+    min-width: 100vh; 
+    min-height: 100vh;
+    height: 300px;   
+    overflow: hidden;
+}
+
+.panel{
+    display: flex;
+    flex: 1 0 auto;
+    transition: flex 0.5s;
+
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.panel p{
+    color: white;
+    margin: 70px 0px;
+    height: 2.5rem;
+}
+
+.panel p:nth-child(2){
+    font-size:2em;
+}
+
+.panel p:nth-child(1) {
+    font-family: 'Lobster', cursive;
+    transform: translateY(-200%);
+}
+.panel p:nth-child(3) {
+    transform: translateY(200%);
+}
+  
+/* open 상태*/
+.panel.open {
+    flex: 2;
+}
+.panel.open p:nth-child(1),
+.panel.open p:nth-child(3) {
+    transform: translateY(0);
+    transition: transform 0.4s ease-in-out;
+}
+  
+.panel.open p:nth-child(2){
+    transform: scale(1.2);
+    transition: transform 0.4s ease-in-out;
+}
+
+/* hover 상태 */
+.panel:hover {
+    cursor: pointer;
+}
+
+.panel p:hover{
+    background: linear-gradient(to top, #fff6b7,  #f77c99);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+
+    animation-name: bright;
+    animation-duration:1s;
+    animation-timing-function: ease-out;
+}
+
+@-webkit-keyframes bright{
+    0% {
+        text-shadow: 0 0 0.1rem white;
+    }
+    40% {
+        text-shadow: 0 0 0.8rem white;
+
+    }
+    80% {
+        text-shadow: 0 0 0.4rem white;
+    }
+    100% {
+        text-shadow: 0 0 0.1rem white;
+    }
+}
