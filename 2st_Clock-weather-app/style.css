@@ -1,0 +1,157 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
+
+*{
+    /* font-family: 'Do Hyeon', sans-serif; */
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: skyblue;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items:inherit; */
+  }
+
+
+.analog_hour,
+.analog_minute,
+.analog_second {
+  height: 2px; /* 바늘의 두께 */
+	/* transform-origin을 100%로 설정하면 오른쪽 끝을 기준으로 회전합니다
+	 * 만약 width: 2px로 하고 싶다면, transform-origin: bottom; 으로 설정하면 됩니다
+   * 여기서는 height를 기준으로 했기 때문에 바늘이 처음에는 누워있는 상태라서
+   * 자바스크립트에서 각도를 계산할 때 끝에 90을 더해줘야 원하는 대로 결과가 나옵니다
+	 */
+  border-radius: 1px;
+  position: relative;
+  transform-origin: 100%; /* 오른쪽 끝을 기준으로 회전 */
+  transform: rotate(90deg);
+  color: black;
+}
+
+.analog_hour{
+    z-index: 1;
+    width: 50px;
+    top: 100px;
+    left :49px;
+    background-color: grey;
+}
+
+.analog_second{
+    z-index: 3;
+    width: 85px;
+    top: 96px;
+    left :14px;
+    background-color: skyblue;
+}
+
+.analog_minute{
+    z-index: 2;
+    width: 70px;
+    top: 98px;
+    left :29px;
+    background-color: coral;
+}
+
+.analog_clock{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    background-color: white;
+    margin: 10px auto;
+    /* display: block; */
+}
+
+
+.analog_clock >p{
+    color: coral;
+    text-align: center;
+    margin: 0;
+}
+
+.digital{
+    display: flex;
+    justify-content: center;
+}
+
+.digital_btn{
+    margin: 0px 10px;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 9px;
+    color : white;
+}
+
+.digital_btn:hover{
+    border: 1px solid white;
+    background-color: rgb(255, 255, 255);
+    color : skyblue;
+    cursor: pointer;
+    border-radius: 9px;
+}
+
+.clocks{
+    text-align: center;
+    font-family: 'Slabo 27px', serif;
+    font-size: 1.5em;
+    margin:0px 35px;
+}
+
+.mainElements{
+    display: flex;
+    justify-content: center;
+}
+
+p{
+    margin: 5px;
+}
+
+.todayDate{
+    margin: 20px auto;
+    font-size: 3em;
+    /* font-family: 'Lobster', cursive; */
+    font-family: 'Pacifico', cursive;
+}
+
+.todayDate>span{
+    color : coral;
+    font-size: 3rem;
+}
+
+.weather{
+    display: flex; 
+    flex-direction : column; 
+    justify-content:space-between;
+    margin:0px 35px;
+}
+
+.horizon {
+    display: flex; 
+    justify-content: space-around;
+}
+
+.details{
+    font-size: 1.1em;
+}
+
+.details>span{
+    font-weight: bold;
+    color:grey;
+    font-family: 'Slabo 27px', serif;
+}
+
+.mainweather{
+    display: flex; 
+    flex-direction : column; 
+    justify-content: center;
+    font-size: 1.9em;
+    font-family: 'Pacifico', cursive;
+}
+
+.weather_top{
+    margin-top: 25px;
+}
