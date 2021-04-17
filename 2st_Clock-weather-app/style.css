@@ -3,8 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
 
 *{
-    /* font-family: 'Do Hyeon', sans-serif; */
+    white-space: nowrap;
 }
+
 body {
     width: 100vw;
     height: 100vh;
@@ -98,7 +99,7 @@ body {
     text-align: center;
     font-family: 'Slabo 27px', serif;
     font-size: 1.5em;
-    margin:0px 35px;
+    margin:0px 5%;
 }
 
 .mainElements{
@@ -126,7 +127,7 @@ p{
     display: flex; 
     flex-direction : column; 
     justify-content:space-between;
-    margin:0px 35px;
+    margin:0px 5%;
 }
 
 .horizon {
@@ -155,3 +156,77 @@ p{
 .weather_top{
     margin-top: 25px;
 }
+
+.cal_table {
+    width : 200px;
+    text-align: center;
+    border : 1px solid black;
+}
+
+.cal_days {
+    display: flex;
+    border : 1px solid white;
+    padding : 5px;
+    width: 270px;
+}
+
+.CalDay{
+    margin: 0px 10px;
+    width: 17px;    
+    text-align: center;
+}
+
+.month{
+    text-align: center;
+    padding : 5px 5px;
+    border : 1px solid white;
+    width: 270px;
+}
+
+.cal_dates{
+    /* display: flex; */
+    border : 1px solid white;
+    padding : 5px;
+    width: 270px;
+}
+
+.Week{
+    display: flex;
+    padding : 5px;
+    justify-content:flex-start;
+}
+
+.calendar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 900px) {
+
+    .mainElements {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .calendar{
+        margin : 30px auto;
+    }
+
+    .todayDate{
+        font-size: 2rem;
+    }
+    
+    .todayDate>span{
+        font-size: 2rem;
+    }
+    .clocks{
+        margin : 0px auto;
+    }
+    .horizon{
+        display: flex;
+    }
+    .weather{
+        margin : 0px auto;
+    }
+  }

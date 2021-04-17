@@ -47,27 +47,47 @@ const getWeatherData = async (lat, lon) => {
     rain: weatherData.rain ? weatherData.rain["1h"] : null, // 비가 올 때만 데이터가 들어오기 때문에 null 처리를 해주지 않으면 오류가 납니다
     humidity: weatherData.main.humidity,
     wind: weatherData.wind.speed,
-    icon: weatherData.weather[0].icon
+    icon: weatherData.weather[0].icon,
+    id: weatherData.weather[0].id
   }
   drawWeather(weather);
   return weather;
 }
 
 const drawWeather = (weather) => {
-  console.log('sfk');
   main.innerHTML = `${weather.main}`;
   feel.innerHTML = `<span>Feels: </span>${weather.feel} °C`;
-  min.innerHTML = `<span>Min: </span>${weather.min} °C` ;
+  min.innerHTML = `<span>Min: </span>${weather.min} °C`;
   max.innerHTML = `<span>Max: </span>${weather.max} °C`;
   temp.innerHTML = `${weather.temp} °C`;
   humidity.innerHTML = `<span>Humidity: </span>${weather.humidity} %`;
   wind.innerHTML = `<span>Wind: </span>${weather.wind} m/s`;
-  icon.innerHTML = `<img src="http://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="icon" />`;
-
-  if(weather.rain != null){
+  // icon.innerHTML = `<img src="http://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="icon" />`;
+  setAnimationIcon(weather.id, weather.icon);
+  if (weather.rain != null) {
     rain.innerHTML = `<span>Rain: </span>${weather.rain} mm/h`;
   }
-  // drawIcon(weather.id);
 };
+
+setAnimationIcon = (weatherid, iconid) => {
+  const skycons = new Skycons({ "color": "white", "resizeClear": true });
+  switch(parseInt(weatherid/100)){
+    case 2,3: skycons.add("icon", Skycons.SLEET); break;
+    case 5: skycons.add("icon", Skycons.RAIN); break;
+    case 6: skycons.add("icon", Skycons.SNOW); break;
+    case 7: skycons.add("icon", Skycons.FOG); break;
+    case 7: skycons.add("icon", Skycons.FOG); break;
+    case 8: {
+      switch(iconid){
+        case '01d': skycons.add("icon", Skycons.CLEAR_DAY); break;
+        case '01n': skycons.add("icon", Skycons.CLEAR_NIGHT); break;
+        case '02d': skycons.add("icon", Skycons.PARTLY_CLOUDY_DAY); break;
+        case '02n': skycons.add("icon", Skycons.PARTLY_CLOUDY_NIGHT); break;
+        default :   skycons.add("icon", Skycons.CLOUDY);
+      }
+    }
+  }
+    skycons.play();
+}
 
 getLocation();

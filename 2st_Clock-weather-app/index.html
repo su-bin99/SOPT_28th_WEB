@@ -11,7 +11,20 @@
 <body>
     <script src="clock.js" defer></script>
     <script src="weather.js" defer></script>
+    <script src="calendar.js" defer></script>
 
+    <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
+    
+    <!-- <script>
+        const skycons = new Skycons({"color": "white", "resizeClear": true});
+        skycons.add("icon", Skycons.CLOUDY);
+        // skycons.set("icon", Skycons.CLEAR_DAY);
+        skycons.play();
+    // /********************************* 아이콘 종류 ******************************
+    //     * CLEAR_DAY, CLEAR_NIGHT, PARTLY_CLOUDY_DAY, PARTLY_CLOUDY_NIGHT, CLOUDY, 
+    //     * RAIN, SLEET, SNOW, WIND, FOG 총 10가지
+    // ****************************************************************************/
+    </script> -->
 
     <div class="todayDate">
     </div>
@@ -26,28 +39,33 @@
                 </div>
             </div>
             <div class="digital">
-                <div class = "digital_clock"></div>
-                <button class = "digital_btn"> AM </button>
+                <div class="digital_clock"></div>
+                <button class="digital_btn"> AM </button>
             </div>
         </div>
         <div class="calendar">
-
+           <div class = "cal_header">
+               <div class = "month">ㅁㄴㅇㄹ</div>
+           </div>
+           <div class = "cal_days"></div>
+           <div class = "cal_dates"></div>
         </div>
-        <div class="weather" >
-            <div class = "horizon weather_top">
-                <div class=icon></div>
-                <div class = "mainweather">
+        <div class="weather">
+            <div class="horizon weather_top">
+                <canvas id="icon"></canvas>
+                <!-- <div class=icon></div> -->
+                <div class="mainweather">
                     <div class=main></div>
                     <div class=temp></div>
                 </div>
             </div>
             <div>
-                <div class = "horizon" >
+                <div class="horizon">
                     <p class="feel details"></p>
                     <p class="min details"></p>
                     <p class="max details"></p>
                 </div>
-                <div class = "horizon" >
+                <div class="horizon">
                     <p class="rain details"></p>
                     <p class="humidity details"></p>
                     <p class="wind details"></p>
