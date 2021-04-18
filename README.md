@@ -15,6 +15,7 @@ https://github.com/su-bin99/SOPT_28th_WEB/tree/master/2st_Clock-weather-app
 5. document.createElement("div") 를 활용해서 동적으로 html요소 할당
 6. 캘린더 구현
 7. https://rawgithub.com/darkskyapp/skycons/master/skycons.js 를 활용해 canvas요소에 날씨 아이콘 애니메이션 재생
+8. 캘린더 이전, 다음 달 구현
 
 ## 2-2. [JS] 다크모드 토글 만들기
 1. 버튼 클릭 이벤트 리스너함수에 html요소.classList.toggle('클래스명') 을 활용해 if, else활용하지 않고 구현

@@ -54,12 +54,8 @@ const getFirstDay = (year, month) => {
     return firstDate.getDay();
 }
 
-const getDateofMonth = ( month) => {
-    switch(month+1){
-        case 1, 3, 5, 7, 8, 10, 12 : return 31;
-        case 2 : return 28;
-        default : return 30;
-    }
+const getDateofMonth = ( year, month) => {
+    return new Date(year, month+1, 0).getDate();
 }
 
 
@@ -97,7 +93,7 @@ const drawDates = (year, month, date, day) => {
     }
 
     const firstDay = getFirstDay(year, month);
-    const LastDay = getDateofMonth(month);
+    const LastDay = getDateofMonth(year, month);
 
     const FirstWeek = document.createElement("div");
 
