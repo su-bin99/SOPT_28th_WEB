@@ -2,7 +2,50 @@ const CalHeader = document.querySelector(".cal_header");
 const CalDays = document.querySelector(".cal_days");
 const CalDates = document.querySelector(".cal_dates");
 const Month = document.querySelector(".month");
+const Year = document.querySelector(".year");
+const PrevBtn = document.getElementById("prev");
+const NextBtn = document.getElementById("next");
 
+const RealDate = {
+    year : new Date().getFullYear(),
+    month : new Date().getMonth(),
+    date : new Date().getDate(),
+    day : new Date().getDay()
+}
+
+let thisDate = {
+    year : new Date().getFullYear(),
+    month : new Date().getMonth(),
+    date : new Date().getDate(),
+    day : new Date().getDay()
+}
+const isThisReal = () => {
+    if( thisDate.year == RealDate.year &&
+        thisDate.month == RealDate.month &&
+        thisDate.date == RealDate.date ) return true;
+    else return false;
+
+}
+
+const HandlePrevBtn = () => {
+    if(thisDate.month == 0){
+        thisDate.year --;
+        thisDate.month = 11;
+    }else{
+        thisDate.month --;
+    }
+    getDates(thisDate);    
+}
+
+const HandleNextBtn = () => {
+    if(thisDate.month == 11){
+        thisDate.year ++;
+        thisDate.month = 0;
+    }else{
+        thisDate.month ++;
+    }
+    getDates(thisDate); 
+}
 
 const getFirstDay = (year, month) => {
     console.log(year + ' ' + month);
@@ -21,6 +64,7 @@ const getDateofMonth = ( month) => {
 
 
 const drawCalendar = (year, month, date, day) => {
+    Year.innerText = `${year}`;
     drawMonth(month);
     drawDays();
     drawDates(year, month, date, day)
@@ -34,6 +78,7 @@ const drawMonth = (month) => {
 }
 
 const drawDays = () => {
+    if(CalDays.hasChildNodes()) return;
     const days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
     days.forEach((n) => {
         const day = document.createElement("div");
@@ -47,6 +92,10 @@ const drawDays = () => {
 }
 
 const drawDates = (year, month, date, day) => {
+    while ( CalDates.hasChildNodes() ) { 
+        CalDates.removeChild( CalDates.firstChild ); 
+    }
+
     const firstDay = getFirstDay(year, month);
     const LastDay = getDateofMonth(month);
 
@@ -55,6 +104,7 @@ const drawDates = (year, month, date, day) => {
     const Weeks = [document.createElement("div"), 
         document.createElement("div"), 
         document.createElement("div"), 
+        document.createElement("div"),
         document.createElement("div")];
 
     FirstWeek.className = 'Week';
@@ -64,18 +114,19 @@ const drawDates = (year, month, date, day) => {
         day.className = 'CalDay';
         FirstWeek.appendChild(day);
     }
+    console.log(RealDate.month)
 
     for (let i = 1 ; i <= LastDay ; i++ ){
         if(firstDay + i <=7){
             const day = document.createElement("div");
             day.innerText = i;
-            if(i == date) day.style.color = 'coral';
+            if(isThisReal() && i == date) day.style.color = 'coral';
             day.className = 'CalDay';
             FirstWeek.appendChild(day);
         }else{
             const day = document.createElement("div");
             day.innerText = i;
-            if(i == date) day.style.color = 'coral';
+            if(isThisReal()&& i == date) day.style.color = 'coral';
             day.className = 'CalDay';
             Weeks[parseInt((i+firstDay-1)/7)-1].appendChild(day);
         }
@@ -89,14 +140,11 @@ const drawDates = (year, month, date, day) => {
 
 }
 
-const getDates = () => {
-    const timeGetter = new Date();
-
-    let date = timeGetter.getDate(),
-        month = timeGetter.getMonth(),
-        year = timeGetter.getFullYear(),
-        day = timeGetter.getDay();
-    drawCalendar(year, month, date, day);
+const getDates = (thisDate) => {
+    drawCalendar(thisDate.year, thisDate.month, thisDate.date, thisDate.day);
 }
 
-getDates();
+getDates(thisDate);
+
+PrevBtn.addEventListener("click", HandlePrevBtn);
+NextBtn.addEventListener("click", HandleNextBtn);

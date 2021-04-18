@@ -176,11 +176,17 @@ p{
     text-align: center;
 }
 
-.month{
-    text-align: center;
-    padding : 5px 5px;
+.cal_header{
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
     border : 1px solid white;
+    background-color: white;
+    padding : 2px 5px;
     width: 270px;
+    color: skyblue;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .cal_dates{
@@ -200,6 +206,10 @@ p{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.button{
+    cursor: pointer;
 }
 
 @media (max-width: 900px) {
