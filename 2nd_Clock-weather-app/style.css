@@ -213,6 +213,9 @@ p{
 }
 
 @media (max-width: 900px) {
+    body {
+        height: 100%;
+    }
 
     .mainElements {
       display: flex;
