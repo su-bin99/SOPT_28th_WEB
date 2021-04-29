@@ -61,7 +61,7 @@
   
 /* open 상태*/
 .panel.open {
-    flex: 2;
+    flex-grow: 2;
 }
 .panel.open p:nth-child(1),
 .panel.open p:nth-child(3) {
