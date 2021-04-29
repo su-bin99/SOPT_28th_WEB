@@ -71,7 +71,7 @@ const MoveGit = styled.a`
 
 const BioP = styled.p`
     color : #F9D0C8;
-    margin : 10px;
+    margin : 15px 0px 0px 0px;
     width : 200px;
     text-align : center;
 `;
