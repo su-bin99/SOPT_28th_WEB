@@ -87,7 +87,9 @@ let UserCard = ({ userData }) => {
             <>
                 <Container>
                     <Col>
-                        <Img src={userData.avatar_url} alt=""></Img>
+                        <a href={userData.html_url}>
+                            <Img src={userData.avatar_url} alt=""></Img>
+                        </a>
                         <Name>{userData.name}</Name>
                         <Row>
                             <Col>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
-import UserCard from "./components/UserCard";
-// import Hello from './Hello';
+import Result from "./components/Result";
+
 import { getUserData } from './lib/Api';
 import styled from 'styled-components'
 
@@ -32,10 +32,29 @@ const InnerContainer = styled.div`
 
 function App() {
   const [userData, setUserData] = useState(null);
+  const [state, setState] = useState(null)
 
   const getData = async (name) => {
+    setState("loading");
     const data = await getUserData(name);
-    setUserData(data);
+    console.log(data);
+    switch(data){
+      case null : {
+        setState(null);
+        setUserData(null);
+        break;
+      }
+      case "fail":{
+        setState("fail");
+        setUserData(null);
+        break;
+      }
+      default: {
+        setState("success");
+        setUserData(data);
+        break;
+      }
+    }
   }
 
   return (
@@ -43,7 +62,7 @@ function App() {
       <H1>Github Profile Finder</H1>
       <InnerContainer>
         <SearchBar getData={getData} />
-        <UserCard userData={userData} />
+        <Result userData = {userData} state = {state}></Result>
       </InnerContainer>
     </Container>
   );

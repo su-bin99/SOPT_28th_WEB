@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const getUserData = async (name) => {
-    console.log('호출')
-    if(name ==undefined){
+    console.log('호출' + name);
+    if(name ==undefined|| name ==""){
         console.log(name);
         return null;
     }
@@ -13,7 +13,7 @@ export const getUserData = async (name) => {
             return data;
         } catch (e) {
             console.log("[FAIL] GET user data", e);
-            return null;
+            return "fail";
         }
     }
 };
