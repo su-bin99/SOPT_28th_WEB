@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3001",
   timeout: 1000,
 });
 
@@ -9,6 +9,7 @@ export const getCardData = async () => {
   try {
     const data = await instance.get("/posts");
     console.log("[SUCCESS] GET card data");
+    console.log(data);
     return data.data.data;
   } catch (e) {
     console.log("[FAIL] GET card data");

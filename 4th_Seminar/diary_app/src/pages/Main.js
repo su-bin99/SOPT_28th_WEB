@@ -3,14 +3,14 @@ import Card from "../components/main/Card";
 import NewCard from "../components/main/NewCard";
 import Styled from "styled-components";
 import { getCardData } from "../lib/api";
-
+import { withRouter } from "react-router";
 const MainWrap = Styled.div`
   display: grid;
   grid-template-columns: repeat(5, auto);
   row-gap: 25px;
 `;
 
-const Main = ({ year, month }) => {
+const Main = ({ year, month, history }) => {
   const [userData, setUserData] = React.useState(null);
   const [rawData, setRawData] = React.useState(null);
 
@@ -26,7 +26,13 @@ const Main = ({ year, month }) => {
     <MainWrap>
       {userData &&
         userData.map((data, index) => {
-          return <Card key={index} props={data} />;
+          return (
+            <Card
+              key={index}
+              props={data}
+              onClick={() => history.push(`/diary/${data.id}`)}
+            />
+          );
         })}
       <NewCard
         year={year}
@@ -38,4 +44,4 @@ const Main = ({ year, month }) => {
   );
 };
 
-export default Main;
+export default withRouter(Main);

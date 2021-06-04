@@ -23,6 +23,7 @@ const CardWrap = Styled.div`
       &--photo {
         width: inherit;
         height: inherit;
+        object-fit: cover;
         border-top-left-radius: inherit;
         border-top-right-radius: inherit;
       }
