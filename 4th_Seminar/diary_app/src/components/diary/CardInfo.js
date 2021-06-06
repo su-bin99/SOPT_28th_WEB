@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Styled from "styled-components";
 import EmptyImage from "../../assets/Profile.svg";
 import FormControl from "@material-ui/core/FormControl";
@@ -122,19 +122,83 @@ const getDateFormat = (date) => {
 };
 
 const CardInfo = ({ data, isReadOnly, handleChange }) => {
-  const classes = useStyles();
   const { image, date, weather, tags, summary } = data;
+  const classes = useStyles();
+
+  const [myImage, setMyImage] = useState(null);
+  const [file, setFile] = useState("");
+  const [previewURL, setPreviewURL] = useState("");
+  const [preview, setPreview] = useState(null);
+  const fileRef = useRef();
+
+  useEffect(() => {
+    setMyImage(previewURL);
+  }, [previewURL]);
+
+  useEffect(() => {
+    image ? setMyImage(image) : setMyImage(null);
+  }, []);
+
+  const handleFileOnChange = (event) => {
+    //파일 불러오기
+    event.preventDefault();
+    let file = event.target.files[0];
+    let reader = new FileReader();
+
+    reader.onloadend = (e) => {
+      setFile(file);
+      setPreviewURL(reader.result);
+    };
+    if (file) reader.readAsDataURL(file);
+  };
+
+  const handleFileButtonClick = (e) => {
+    //버튼 대신 클릭하기
+    e.preventDefault();
+    fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
+  };
 
   return (
     <CardInfoWrap>
-      <div className="info__photo">
-        <img
-          src={image ? image : EmptyImage}
-          width={image && "210px"}
-          height={image && "210px"}
-          alt=""
-        />
-      </div>
+      {isReadOnly ? (
+        <div className="info__photo">
+          <img
+            src={image ? image : EmptyImage}
+            width={image && "210px"}
+            height={image && "210px"}
+            alt=""
+          />
+        </div>
+      ) : (
+        <>
+          <input
+            ref={fileRef}
+            hidden={true}
+            id="file"
+            type="file"
+            onChange={handleFileOnChange}
+          />
+          <div>
+            <button
+              onClick={handleFileButtonClick}
+              style={{
+                background: "rgba(0,0,0,0)",
+                border: "0px",
+              }}
+            >
+              <div className="info__photo">
+                <img
+                  src={myImage ? image : EmptyImage}
+                  width={myImage && "210px"}
+                  height={myImage && "210px"}
+                  alt=""
+                  onChange={handleChange}
+                />
+              </div>
+            </button>
+          </div>
+        </>
+      )}
       <div className="info__data-wrap">
         <p className="info__date">
           <span>날짜</span>
