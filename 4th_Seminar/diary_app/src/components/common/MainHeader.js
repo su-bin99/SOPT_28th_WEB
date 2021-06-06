@@ -1,8 +1,8 @@
-import React from 'react';
-import MenuIcon from '../../assets/Menu.svg';
-import ProfileIcon from '../../assets/Profile.svg';
-import Styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import MenuIcon from "../../assets/Menu.svg";
+import ProfileIcon from "../../assets/Profile.svg";
+import Styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 const MainHeaderWrap = Styled.div`
   .header {
@@ -27,26 +27,28 @@ const MainHeaderWrap = Styled.div`
     }
 
     &__hr {
-      width: 1200px;
+      width : 100%;
       height: 13px;
       background: linear-gradient(90deg, white, #CEA0E3);
     }
   }
 `;
 
-const MainHeader = ({history}) => {
-    return (
-        <>
-            <MainHeaderWrap>
-                <div className="header">
-                    <img className="header__menu" src={MenuIcon} alt="" />
-                    <div className="header__title" onClick={() => history.push("/")}>Diary App</div>
-                    <img className="header__profile" src={ProfileIcon} alt="" />
-                </div>
-                <div className="header__hr"></div>
-            </MainHeaderWrap>
-        </>
-    )
-}
+const MainHeader = ({ history }) => {
+  return (
+    <>
+      <MainHeaderWrap>
+        <div className="header">
+          <img className="header__menu" src={MenuIcon} alt="" />
+          <div className="header__title" onClick={() => history.push("/")}>
+            Diary App
+          </div>
+          <img className="header__profile" src={ProfileIcon} alt="" />
+        </div>
+        <div className="header__hr"></div>
+      </MainHeaderWrap>
+    </>
+  );
+};
 
 export default withRouter(MainHeader);

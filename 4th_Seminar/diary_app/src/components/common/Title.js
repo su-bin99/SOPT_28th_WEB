@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 const TitleWrap = Styled.div`
   .title {
-    width: 1200px;
+    width: 100%;
     height: 92px;
     font-size: 36px;
     font-weight: bold;

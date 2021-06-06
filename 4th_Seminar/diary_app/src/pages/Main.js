@@ -6,8 +6,9 @@ import { getCardData } from "../lib/api";
 import { withRouter } from "react-router";
 const MainWrap = Styled.div`
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   row-gap: 25px;
+  column-gap : 25px;
 `;
 
 const Main = ({ year, month, history }) => {

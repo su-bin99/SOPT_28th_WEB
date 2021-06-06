@@ -5,13 +5,13 @@ import EmptyImage from "../../assets/Profile.svg";
 const CardWrap = Styled.div`
   .card {
     box-sizing: border-box;
-    width: 220px;
+    min-width: 220px;
     height: 257px;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     
     &__image {
-      width: 220px;
+      min-width: 220px;
       height: 148px;
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
@@ -21,7 +21,8 @@ const CardWrap = Styled.div`
       align-items: center;
 
       &--photo {
-        width: inherit;
+        
+        width: 100%;
         height: inherit;
         object-fit: cover;
         border-top-left-radius: inherit;
