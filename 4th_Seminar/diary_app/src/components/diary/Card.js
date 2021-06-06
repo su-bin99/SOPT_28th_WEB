@@ -1,85 +1,91 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
 import Styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import CardHeader from "./CardHeader";
+import CardInfo from "./CardInfo";
+import { createCardData } from "../../lib/api";
 
 const CardWrap = Styled.div`
-  .card {
+  max-width: 785px;
+  /* width: 100%; */
+  min-height: 600px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  textarea {
+    width: 97%;
+    /* max-width: 642px; */
+    height: 219px;
+    background-color: #EFEFEF;
+    font-size: 18px;
+    resize: none;
+    font-family: Roboto;
+    border: none;
+    padding: 14px;
+    margin-bottom: 10px;
     box-sizing: border-box;
-    width: 220px;
-    height: 257px;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    &:hover {
-      cursor: pointer;
+    &:focus {
+      outline: none;
     }
-    
-    &__image {
-      width: 220px;
-      height: 148px;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      background-color: #C4C4C4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      &--photo {
-        width: inherit;
-        height: inherit;
-        border-top-left-radius: inherit;
-        border-top-right-radius: inherit;
-      }
+    &::placeholder {
+      color: #C4C4C4;
     }
-    &__top {
-      margin: 9px 12px;
-      font-size: 14px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      &--weather {
-        color: #CEA0E3;
-      }
-    }
-    &__title {
-      font-size: 18px;
-      height: 25px;
-      margin: 0 12px;
-      text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    &__tags {
-      margin: 9px 12px;
-      margin-right: 5px;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #CEA0E3;
-      &--tag {
-        font-size: 14px;
-        color: white;
-        background-color: #CEA0E3;
-        padding: 4px 11px;
-        border-radius: 5px;
-        margin-right: 7px;
-        max-width: 100px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-}
+  }
 `;
 
-const Card = ({ data, match }) => {
+const Card = ({ data, match, history, rawData, year, month }) => {
   const isReadOnly = match.path === "/diary/:id" ? true : false;
-  const { title, date, image, weather, tags, summary, text } = data;
+  const [state, setState] = React.useState(data);
+  const id = parseInt(match.params.id);
 
-  return <CardWrap></CardWrap>;
+  const handleChange = (event) => {
+    const name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+  };
+
+  const handleEdit = async () => {
+    const index = rawData[year][month].findIndex((data) => data.id === id);
+    rawData[year][month][index] = state;
+    const data = await createCardData(rawData);
+    history.goBack();
+  };
+
+  const handleDelete = async () => {
+    const filteredList = rawData[year][month].filter((data) => data.id !== id);
+    rawData[year][month] = filteredList;
+    const data = await createCardData(rawData);
+    history.goBack();
+  };
+
+  return (
+    <CardWrap>
+      <CardHeader
+        title={state.title}
+        isReadOnly={isReadOnly}
+        handleChange={handleChange}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      <CardInfo
+        data={state}
+        isReadOnly={isReadOnly}
+        handleChange={handleChange}
+      />
+      <textarea
+        placeholder="오늘을 기록해 주세요"
+        readOnly={isReadOnly}
+        value={state.text}
+        name="text"
+        onChange={handleChange}
+      />
+    </CardWrap>
+  );
 };
 
-export default Card;
+export default withRouter(Card);

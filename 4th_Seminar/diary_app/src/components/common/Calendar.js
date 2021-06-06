@@ -4,6 +4,7 @@ import LeftOn from "../../assets/Left_On.svg";
 import RightOff from "../../assets/Right_off.svg";
 import RightOn from "../../assets/Right_On.svg";
 import Styled from "styled-components";
+import { withRouter } from "react-router";
 
 const CalendarWrap = Styled.div`
   .calendar {
@@ -58,7 +59,13 @@ const CalendarWrap = Styled.div`
   }
 `;
 
-const Calendar = ({ currYear, setCurrYear, currMonth, setCurrMonth }) => {
+const Calendar = ({
+  currYear,
+  setCurrYear,
+  currMonth,
+  setCurrMonth,
+  history,
+}) => {
   const monthList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   const leftButton = React.useRef();
   const rightButton = React.useRef();
@@ -94,7 +101,10 @@ const Calendar = ({ currYear, setCurrYear, currMonth, setCurrMonth }) => {
               <div
                 key={month}
                 className="calendar__month--button"
-                onClick={() => setCurrMonth(month)}
+                onClick={() => {
+                  setCurrMonth(month);
+                  history.push(`/`);
+                }}
                 style={
                   month === currMonth
                     ? { fontSize: "22px", fontWeight: "bold" }
@@ -111,4 +121,4 @@ const Calendar = ({ currYear, setCurrYear, currMonth, setCurrMonth }) => {
   );
 };
 
-export default Calendar;
+export default withRouter(Calendar);

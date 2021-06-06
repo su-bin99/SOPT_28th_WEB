@@ -4,6 +4,7 @@ import NewCard from "../components/main/NewCard";
 import Styled from "styled-components";
 import { getCardData } from "../lib/api";
 import { withRouter } from "react-router";
+
 const MainWrap = Styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -31,7 +32,7 @@ const Main = ({ year, month, history }) => {
             <Card
               key={index}
               props={data}
-              onClick={() => history.push(`/diary/${data.id}`)}
+              onClickFunc={() => history.push(`/diary/${data.id}`)}
             />
           );
         })}
@@ -40,6 +41,7 @@ const Main = ({ year, month, history }) => {
         month={month}
         rawData={rawData}
         setUserData={setUserData}
+        id={userData ? userData.length + 1 : 1}
       />
     </MainWrap>
   );
