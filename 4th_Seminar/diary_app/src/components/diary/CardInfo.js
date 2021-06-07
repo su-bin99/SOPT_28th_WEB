@@ -148,6 +148,9 @@ const CardInfo = ({ data, isReadOnly, handleChange }) => {
     reader.onloadend = (e) => {
       setFile(file);
       setPreviewURL(reader.result);
+      e.target.name = "image";
+      e.target.value = reader.result;
+      handleChange(e);
     };
     if (file) reader.readAsDataURL(file);
   };
@@ -176,6 +179,7 @@ const CardInfo = ({ data, isReadOnly, handleChange }) => {
             hidden={true}
             id="file"
             type="file"
+            name="image"
             onChange={handleFileOnChange}
           />
           <div>
