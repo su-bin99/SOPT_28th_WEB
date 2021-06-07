@@ -6,9 +6,13 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import Select from "../../assets/Select.svg";
+import Chip from "@material-ui/core/Chip";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles({
   select: {
+    width: "250px",
     "& .MuiSvgIcon-root": {
       display: "none",
     },
@@ -33,6 +37,16 @@ const BootstrapInput = withStyles((theme) => ({
     },
   },
 }))(InputBase);
+
+const useStyles2 = makeStyles((theme) => ({
+  root: {
+    width: "250px",
+    padding: 0,
+    "& > * + *": {
+      marginTop: theme.spacing(3),
+    },
+  },
+}));
 
 const CardInfoWrap = Styled.div`
   
@@ -73,7 +87,7 @@ const CardInfoWrap = Styled.div`
       }
     }
     &__summary {
-      width: 236px;
+      width: 250px;
       height: 30px;
       box-sizing: border-box;
       border: none;
@@ -98,7 +112,7 @@ const CardInfoWrap = Styled.div`
       color: #C4C4C4;
     }
   }
-  @media screen and (max-width: 770px) {   
+  @media screen and (max-width: 800px) {   
     display : flex;
     flex-direction: column;
     align-items:center;
@@ -124,6 +138,7 @@ const getDateFormat = (date) => {
 const CardInfo = ({ data, isReadOnly, handleChange }) => {
   const { image, date, weather, tags, summary } = data;
   const classes = useStyles();
+  const classes2 = useStyles2();
 
   const [myImage, setMyImage] = useState(null);
   const [file, setFile] = useState("");
@@ -159,6 +174,16 @@ const CardInfo = ({ data, isReadOnly, handleChange }) => {
     //버튼 대신 클릭하기
     e.preventDefault();
     fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
+  };
+
+  const onTagsChange = (e, values) => {
+    e.target.name = "tags";
+
+    console.log(values);
+    e.target.value = values;
+    console.log(e.target.value);
+    // console.log(typeof e.target.value);
+    handleChange(e);
   };
 
   return (
@@ -239,20 +264,44 @@ const CardInfo = ({ data, isReadOnly, handleChange }) => {
         )}
         <div className="info__tags">
           <span>태그</span>
-          {tags.length > 0 ? (
-            tags.map((tag, index) => {
-              return (
-                <div key={index} className="info__tags--tag">
-                  {tag}
-                </div>
-              );
-            })
+          {isReadOnly ? (
+            tags.length > 0 ? (
+              tags.map((tag, index) => {
+                return (
+                  <div key={index} className="info__tags--tag">
+                    {tag}
+                  </div>
+                );
+              })
+            ) : (
+              <input
+                type="text"
+                readOnly={true}
+                value=""
+                placeholder="태그를 선택해주세요"
+              />
+            )
           ) : (
-            <input
-              type="text"
-              readOnly={true}
-              value=""
-              placeholder="태그를 선택해주세요"
+            <Autocomplete
+              className={classes2.root}
+              multiple
+              id="tags-filled"
+              options={Feels.map((option) => option.feel)}
+              defaultValue={tags}
+              onChange={onTagsChange}
+              freeSolo
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="filled" />
+              )}
             />
           )}
         </div>
@@ -271,5 +320,7 @@ const CardInfo = ({ data, isReadOnly, handleChange }) => {
     </CardInfoWrap>
   );
 };
+
+const Feels = [];
 
 export default CardInfo;

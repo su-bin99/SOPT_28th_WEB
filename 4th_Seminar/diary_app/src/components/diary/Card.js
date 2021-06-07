@@ -43,10 +43,30 @@ const Card = ({ data, match, history, rawData, year, month }) => {
 
   const handleChange = (event) => {
     const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+    if (event.target.value == "") {
+      console.log("우에ㅔㅔ");
+    }
+    if (name == "tags") {
+      const tagString = event.target.value;
+      let tagArray = [];
+      if (tagString.includes(",")) {
+        //태그가 두개이상
+        tagArray = tagString.split(",");
+      } else if (event.target.value != "") {
+        //태그가 한개
+        tagArray.push(tagString);
+      }
+      //태그가 하나도 없을 경우 빈배열
+      setState({
+        ...state,
+        [name]: tagArray,
+      });
+    } else {
+      setState({
+        ...state,
+        [name]: event.target.value,
+      });
+    }
   };
 
   const handleEdit = async () => {
