@@ -188,7 +188,7 @@ const CardInfo = ({ data, isReadOnly, handleChange }) => {
             >
               <div className="info__photo">
                 <img
-                  src={myImage ? image : EmptyImage}
+                  src={myImage ? myImage : EmptyImage}
                   width={myImage && "210px"}
                   height={myImage && "210px"}
                   alt=""
