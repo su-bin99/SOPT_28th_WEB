@@ -6,10 +6,8 @@ const Input = styled.input``;
 
 const SearchBarWrap = styled.div`
   .search {
-    display: flex;
-    justify-content: center;
-    margin: 15px;
     &__container {
+      display: flex;
       width: 280px;
       background-color: rgba(0, 0, 0, 0);
       border: 4px solid #f9d0c8;
@@ -31,7 +29,6 @@ const SearchBarWrap = styled.div`
       font-size: 1.05em;
       border: 0px;
       padding: 10px;
-      /* text-shadow: 0px 10px 15px rgba(0, 0, 0, 25%); */
       &::placeholder {
         color: #f9d0c8;
         text-shadow: 0px 10px 15px rgba(0, 0, 0, 25%);
@@ -49,34 +46,49 @@ const SearchBarWrap = styled.div`
 
 let SearchBar = ({ getData }) => {
   const [userName, setUserName] = useState("");
+  const [userHistory, setUserHistory] = useState(
+    // JSON.parse(localStorage.getItem("userName") || "[]")
+    []
+  );
+
   const changeHandeler = (event) => {
     setUserName(event.target.value);
   };
   const submitHandler = (event) => {
     event.preventDefault();
     getData(userName);
+    const tempHistory = [...userHistory];
+    tempHistory.shift();
+    userHistory.length < 4
+      ? setUserHistory([...userHistory, userName])
+      : setUserHistory([...tempHistory, userName]);
   };
+
+  useEffect(() => {
+    localStorage.setItem("userName", JSON.stringify(userHistory));
+  }, [userHistory]);
 
   const XbtnHandler = (e) => {
     setUserName("");
     console.log(e);
     getData("");
   };
-  useEffect(() => {
-    console.log(userName);
-  });
+
   return (
     <SearchBarWrap>
       <div className="search__container">
-        <form className="search" onSubmit={submitHandler}>
-          <input
-            className="search__input"
-            type="text"
-            value={userName}
-            onChange={changeHandeler}
-            placeholder="id를 입력하세요"
-          ></input>
-        </form>
+        <div>
+          <form onSubmit={submitHandler}>
+            <input
+              className="search__input"
+              type="text"
+              value={userName}
+              onChange={changeHandeler}
+              placeholder="id를 입력하세요"
+            ></input>
+          </form>
+          {}
+        </div>
         <button className="search__Xbtn" onClick={XbtnHandler}>
           x
         </button>
