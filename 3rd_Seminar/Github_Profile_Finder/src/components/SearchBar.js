@@ -1,9 +1,6 @@
 import react, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Form = styled.form``;
-const Input = styled.input``;
-
 const SearchBarWrap = styled.div`
   .search {
     &__container {
@@ -17,7 +14,7 @@ const SearchBarWrap = styled.div`
       justify-content: space-between;
       align-items: center;
       height: 38px;
-      margin: 10px 10px 20px 10px;
+      margin: 10px 10px 0px 10px;
     }
     &__input {
       background-color: rgba(0, 0, 0, 0);
@@ -29,6 +26,7 @@ const SearchBarWrap = styled.div`
       font-size: 1.05em;
       border: 0px;
       padding: 10px;
+      width: 200px;
       &::placeholder {
         color: #f9d0c8;
         text-shadow: 0px 10px 15px rgba(0, 0, 0, 25%);
@@ -42,31 +40,60 @@ const SearchBarWrap = styled.div`
       border: 0px;
     }
   }
+
+  .history {
+    &__outercontainer {
+      position: absolute;
+      z-index: 1;
+    }
+    &__innercontainer {
+      width: 246px;
+      background-color: rgba(200, 200, 200, 0.8);
+      position: relative;
+      left: 30px;
+    }
+    &__content {
+      padding: 3px 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    &__rightBtn {
+      background-color: rgba(0, 0, 0, 0);
+      border: none;
+    }
+  }
 `;
 
 let SearchBar = ({ getData }) => {
   const [userName, setUserName] = useState("");
   const [userHistory, setUserHistory] = useState(
-    // JSON.parse(localStorage.getItem("userName") || "[]")
-    []
+    JSON.parse(localStorage.getItem("userName") || "[]")
   );
+  const [focused, setFocused] = useState(false);
 
   const changeHandeler = (event) => {
     setUserName(event.target.value);
   };
   const submitHandler = (event) => {
+    setFocused(false);
     event.preventDefault();
     getData(userName);
-    const tempHistory = [...userHistory];
-    tempHistory.shift();
-    userHistory.length < 4
-      ? setUserHistory([...userHistory, userName])
-      : setUserHistory([...tempHistory, userName]);
+    if (!userHistory.includes(userName)) {
+      if (userHistory.length < 4) {
+        setUserHistory([...userHistory, userName]);
+      } else {
+        userHistory.shift();
+        setUserHistory([...userHistory, userName]);
+      }
+    }
   };
 
   useEffect(() => {
     localStorage.setItem("userName", JSON.stringify(userHistory));
   }, [userHistory]);
+
+  useEffect(() => {
+    console.log(focused);
+  }, [focused]);
 
   const XbtnHandler = (e) => {
     setUserName("");
@@ -74,24 +101,51 @@ let SearchBar = ({ getData }) => {
     getData("");
   };
 
+  const historyHandler = (e) => {
+    setFocused(false);
+    const thisHistory = e.target.innerText;
+    setUserName(thisHistory);
+    getData(thisHistory);
+  };
+
   return (
     <SearchBarWrap>
       <div className="search__container">
-        <div>
-          <form onSubmit={submitHandler}>
-            <input
-              className="search__input"
-              type="text"
-              value={userName}
-              onChange={changeHandeler}
-              placeholder="id를 입력하세요"
-            ></input>
-          </form>
-          {}
-        </div>
+        <form onSubmit={submitHandler}>
+          <input
+            className="search__input"
+            type="text"
+            value={userName}
+            onChange={changeHandeler}
+            placeholder="id를 입력하세요"
+            onFocus={() => {
+              setFocused(true);
+            }}
+            onBlur={() => {
+              // setFocused(false);
+            }}
+          ></input>
+        </form>
         <button className="search__Xbtn" onClick={XbtnHandler}>
           x
         </button>
+      </div>
+      <div
+        className="history__outercontainer"
+        style={focused ? { visibility: "visible" } : { visibility: "hidden" }}
+      >
+        <div className="history__innercontainer">
+          {userHistory.map((history, index) => (
+            <div
+              className="history__content"
+              key={index}
+              onClick={historyHandler}
+              value={history}
+            >
+              {history}
+            </div>
+          ))}
+        </div>
       </div>
     </SearchBarWrap>
   );

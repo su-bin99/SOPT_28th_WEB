@@ -40,7 +40,7 @@ const InnerContainer = styled.div`
   background-color: rgba(124, 124, 124, 70%);
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 25%);
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 10px 20px 10px;
   margin: 5px;
 `;
 
