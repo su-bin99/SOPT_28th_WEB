@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import react, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 const SearchBarWrap = styled.div`
@@ -25,7 +25,7 @@ const SearchBarWrap = styled.div`
       appearance: none;
       font-size: 1.05em;
       border: 0px;
-      padding: 10px;
+      padding: 10px 10px 10px 20px;
       width: 200px;
       &::placeholder {
         color: #f9d0c8;
@@ -50,15 +50,12 @@ const SearchBarWrap = styled.div`
       width: 246px;
       background-color: rgba(200, 200, 200, 0.8);
       position: relative;
-      left: 30px;
+      left: 17px;
     }
     &__content {
       padding: 3px 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    }
-    &__rightBtn {
-      background-color: rgba(0, 0, 0, 0);
-      border: none;
+      cursor: pointer;
     }
   }
 `;
@@ -91,13 +88,9 @@ let SearchBar = ({ getData }) => {
     localStorage.setItem("userName", JSON.stringify(userHistory));
   }, [userHistory]);
 
-  useEffect(() => {
-    console.log(focused);
-  }, [focused]);
-
   const XbtnHandler = (e) => {
+    setFocused(false);
     setUserName("");
-    console.log(e);
     getData("");
   };
 
@@ -108,9 +101,28 @@ let SearchBar = ({ getData }) => {
     getData(thisHistory);
   };
 
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      // Alert if clicked on outside of element
+      const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setFocused(false);
+        }
+      };
+      //Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  };
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
   return (
     <SearchBarWrap>
-      <div className="search__container">
+      <div className="search__container" ref={wrapperRef}>
         <form onSubmit={submitHandler}>
           <input
             className="search__input"
@@ -121,31 +133,30 @@ let SearchBar = ({ getData }) => {
             onFocus={() => {
               setFocused(true);
             }}
-            onBlur={() => {
-              // setFocused(false);
-            }}
           ></input>
+          <div
+            className="history__outercontainer"
+            style={
+              focused ? { visibility: "visible" } : { visibility: "hidden" }
+            }
+          >
+            <div className="history__innercontainer">
+              {userHistory.map((history, index) => (
+                <div
+                  className="history__content"
+                  key={index}
+                  onClick={historyHandler}
+                  value={history}
+                >
+                  {history}
+                </div>
+              ))}
+            </div>
+          </div>
         </form>
         <button className="search__Xbtn" onClick={XbtnHandler}>
           x
         </button>
-      </div>
-      <div
-        className="history__outercontainer"
-        style={focused ? { visibility: "visible" } : { visibility: "hidden" }}
-      >
-        <div className="history__innercontainer">
-          {userHistory.map((history, index) => (
-            <div
-              className="history__content"
-              key={index}
-              onClick={historyHandler}
-              value={history}
-            >
-              {history}
-            </div>
-          ))}
-        </div>
       </div>
     </SearchBarWrap>
   );

@@ -51,7 +51,6 @@ function App() {
   const getData = async (name) => {
     setState("loading");
     const data = await getUserData(name);
-    console.log(data);
     switch (data) {
       case null: {
         setState(null);
