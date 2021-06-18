@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import UserCard from "./UserCard";
+import Repo from "./Repo";
 import styled from "styled-components";
 
 const P = styled.p`
@@ -7,8 +7,8 @@ const P = styled.p`
   text-align: center;
 `;
 
-let Result = ({ userData, state, setIsRepo }) => {
-  switch (state) {
+let RepoResult = ({ repoData, repoState, setIsRepo }) => {
+  switch (repoState) {
     case "loading": {
       return <P>loading..</P>;
       break;
@@ -19,11 +19,7 @@ let Result = ({ userData, state, setIsRepo }) => {
     }
     case "success": {
       return (
-        <UserCard
-          userData={userData}
-          className="userCard"
-          setIsRepo={setIsRepo}
-        />
+        <Repo repoData={repoData} setIsRepo={setIsRepo} className="repoCard" />
       );
       break;
     }
@@ -34,4 +30,4 @@ let Result = ({ userData, state, setIsRepo }) => {
   }
 };
 
-export default Result;
+export default RepoResult;

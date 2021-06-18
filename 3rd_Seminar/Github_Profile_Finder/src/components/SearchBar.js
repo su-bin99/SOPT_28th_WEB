@@ -60,7 +60,7 @@ const SearchBarWrap = styled.div`
   }
 `;
 
-let SearchBar = ({ getData }) => {
+let SearchBar = ({ getData, setIsRepo, getRepo }) => {
   const [userName, setUserName] = useState("");
   const [userHistory, setUserHistory] = useState(
     JSON.parse(localStorage.getItem("userName") || "[]")
@@ -72,8 +72,10 @@ let SearchBar = ({ getData }) => {
   };
   const submitHandler = (event) => {
     setFocused(false);
+    setIsRepo(false);
     event.preventDefault();
     getData(userName);
+    getRepo(userName);
     if (!userHistory.includes(userName)) {
       if (userHistory.length < 4) {
         setUserHistory([...userHistory, userName]);
@@ -92,13 +94,16 @@ let SearchBar = ({ getData }) => {
     setFocused(false);
     setUserName("");
     getData("");
+    getRepo("");
   };
 
   const historyHandler = (e) => {
     setFocused(false);
+    setIsRepo(false);
     const thisHistory = e.target.innerText;
     setUserName(thisHistory);
     getData(thisHistory);
+    getRepo(thisHistory);
   };
 
   const useOutsideAlerter = (ref) => {

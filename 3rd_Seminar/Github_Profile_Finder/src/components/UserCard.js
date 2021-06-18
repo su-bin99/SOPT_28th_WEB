@@ -59,15 +59,6 @@ const Col = styled.div`
   margin: 0px 10px;
 `;
 
-const A = styled.a`
-  color: #f9d0c8;
-  text-decoration: none;
-  text-shadow: 0px 2.5px 5px rgba(0, 0, 0, 70%);
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 const MoveGit = styled.a`
   margin: 20px;
   padding: 5px 10px;
@@ -98,7 +89,7 @@ const Span = styled.span`
   font-size: 1.1em;
 `;
 
-let UserCard = ({ userData }) => {
+let UserCard = ({ userData, setIsRepo }) => {
   return (
     userData && (
       <>
@@ -112,26 +103,33 @@ let UserCard = ({ userData }) => {
               <Col>
                 <P>팔로워</P>
                 <Span>
-                  <A href={userData.followers_url}>{userData.followers}</A>
+                  <P>{userData.followers}</P>
                 </Span>
               </Col>
               <Col>
                 <P>팔로잉</P>
                 <Span>
-                  <A href={userData.following_url}>{userData.following}</A>
+                  <P>{userData.following}</P>
                 </Span>
               </Col>
-              <Col>
-                <P>레포</P>
+              <Col
+                onClick={() => {
+                  setIsRepo(true);
+                }}
+              >
+                <P style={{ cursor: "pointer" }}>레포</P>
                 <Span>
-                  <P>{userData.public_repos}</P>
+                  <P style={{ cursor: "pointer" }}>{userData.public_repos}</P>
                 </Span>
               </Col>
             </Row>
             <BioP>{userData.bio}</BioP>
           </Col>
-          <MoveGit href={userData.html_url}>
-            {" "}
+          <MoveGit
+            onClick={() => {
+              window.open(userData.html_url);
+            }}
+          >
             <Span>{userData.login}</Span> 의 깃허브로 이동
           </MoveGit>
         </Container>
@@ -139,5 +137,4 @@ let UserCard = ({ userData }) => {
     )
   );
 };
-
 export default UserCard;

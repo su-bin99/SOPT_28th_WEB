@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
 import Result from "./components/Result";
+import RepoResult from "./components/RepoResult";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { getUserData } from "./lib/Api";
+import { getUserData, getRepoData } from "./lib/Api";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -46,24 +47,54 @@ const InnerContainer = styled.div`
 
 function App() {
   const [userData, setUserData] = useState(null);
-  const [state, setState] = useState(null);
+  const [userstate, setUserState] = useState(null);
+
+  const [isRepo, setIsRepo] = useState(false);
+  const [repoData, setRepoData] = useState(null);
+  const [repoState, setRepoState] = useState(null);
+
+  useEffect(() => {
+    console.log(isRepo);
+  }, [isRepo]);
+
+  const getRepo = async (name) => {
+    setRepoState("loading");
+    const data = await getRepoData(name);
+    switch (data) {
+      case null: {
+        setRepoState(null);
+        setRepoData(null);
+        break;
+      }
+      case "fail": {
+        setRepoState("fail");
+        setRepoData(null);
+        break;
+      }
+      default: {
+        setRepoState("success");
+        setRepoData(data);
+        break;
+      }
+    }
+  };
 
   const getData = async (name) => {
-    setState("loading");
+    setUserState("loading");
     const data = await getUserData(name);
     switch (data) {
       case null: {
-        setState(null);
+        setUserState(null);
         setUserData(null);
         break;
       }
       case "fail": {
-        setState("fail");
+        setUserState("fail");
         setUserData(null);
         break;
       }
       default: {
-        setState("success");
+        setUserState("success");
         setUserData(data);
         break;
       }
@@ -74,8 +105,20 @@ function App() {
     <Container>
       <H1>🐰 Github Profile Finder 🥕</H1>
       <InnerContainer>
-        <SearchBar getData={getData} />
-        <Result userData={userData} state={state}></Result>
+        <SearchBar getData={getData} getRepo={getRepo} setIsRepo={setIsRepo} />
+        {isRepo ? (
+          <RepoResult
+            repoData={repoData}
+            repoState={repoState}
+            setIsRepo={setIsRepo}
+          ></RepoResult>
+        ) : (
+          <Result
+            userData={userData}
+            state={userstate}
+            setIsRepo={setIsRepo}
+          ></Result>
+        )}
       </InnerContainer>
     </Container>
   );
