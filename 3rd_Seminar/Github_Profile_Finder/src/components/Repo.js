@@ -32,7 +32,7 @@ const RepoWrap = styled.div`
       cursor: pointer;
       margin: 10px;
       padding: 10px;
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(248, 208, 200, 0.7);
       border-radius: 5px;
       box-shadow: 0px 2px 15px rgba(0, 0, 0, 25%);
     }
