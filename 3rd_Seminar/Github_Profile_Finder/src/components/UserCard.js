@@ -19,6 +19,17 @@ const Container = styled.div`
       opacity: 1;
     }
   }
+  .twink {
+    animation: twinkle 1s infinite alternate;
+    @keyframes twinkle {
+      from {
+        text-shadow: 0px 0px 0px rgba(255, 255, 255, 0%);
+      }
+      to {
+        text-shadow: 0px 0px 20px rgba(255, 255, 255, 100%);
+      }
+    }
+  }
 `;
 
 const P = styled.p`
@@ -117,9 +128,13 @@ let UserCard = ({ userData, setIsRepo }) => {
                   setIsRepo(true);
                 }}
               >
-                <P style={{ cursor: "pointer" }}>레포</P>
+                <P className="twink" style={{ cursor: "pointer" }}>
+                  레포
+                </P>
                 <Span>
-                  <P style={{ cursor: "pointer" }}>{userData.public_repos}</P>
+                  <P className="twink" style={{ cursor: "pointer" }}>
+                    {userData.public_repos}
+                  </P>
                 </Span>
               </Col>
             </Row>
